@@ -1,0 +1,17 @@
+CODE  
+import RPi.GPIO as gpio  
+from time import sleep  
+from picamera import PiCamera  
+gpio.setmode(gpio.BCM)  
+gpio.setup(17,gpio.IN)  
+gpio.setup(27,gpio.OUT)  
+if(gpio.input(17)==0):  
+gpio.output(27,1)  
+camera = PiCamera()  
+camera.start_preview()  
+camera.vflip = True  
+sleep(2)  
+camera.capture('foo.jpg', use_video_port=True)  
+camera.stop_preview()  
+camera.close()  
+gpio.output(27, 0) 
