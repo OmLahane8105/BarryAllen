@@ -1,0 +1,49 @@
+#include <iostream>
+#include <fstream>
+#include <map>
+#include <iomanip>
+using namespace std;
+
+int main() {
+    ifstream fin("input.txt");
+    ofstream symout("symbol_table.txt"), inter("intermediate.txt");
+
+    string label, opcode, operand;
+    map<string, int> SYMTAB;
+    int LC = 0;
+
+    inter << "LC\tLABEL\tOPCODE\tOPERAND\n";
+
+    while (fin >> label >> opcode >> operand) {
+        if (opcode == "START") {
+            LC = stoi(operand);
+            inter << LC << "\t" << label << "\t" << opcode << "\t" << operand << "\n";
+        } 
+        else if (opcode == "END") {
+            inter << LC << "\t" << label << "\t" << opcode << "\t" << operand << "\n";
+            break;
+        } 
+        else {
+            inter << LC << "\t" << label << "\t" << opcode << "\t" << operand << "\n";
+
+            if (label != "**")
+                SYMTAB[label] = LC;
+
+            // Simple LC increment logic
+            LC += 1;
+        }
+    }
+
+    // Write Symbol Table
+    symout << "Symbol\tAddress\n";
+    for (auto &s : SYMTAB)
+        symout << s.first << "\t" << s.second << "\n";
+
+    cout << " Intermediate Code: intermediate.txt\n";
+    cout << " Symbol Table: symbol_table.txt\n";
+
+    fin.close();
+    symout.close();
+    inter.close();
+    return 0;
+}
