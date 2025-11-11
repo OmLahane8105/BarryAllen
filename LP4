@@ -1,0 +1,168 @@
+# Function to allocate memory to
+# blocks as per First fit algorithm
+
+print("----------1----------------")
+def firstFit(blockSize, m, processSize, n):
+    # Stores block id of the
+    # block allocated to a process
+    allocation = [-1] * n
+
+    # Initially no block is assigned to any process
+
+    # pick each process and find suitable blocks
+    # according to its size ad assign to it
+    for i in range(n):
+        for j in range(m):
+            if blockSize[j] >= processSize[i]:
+                # allocate block j to p[i] process
+                allocation[i] = j
+
+                # Reduce available memory in this block.
+                blockSize[j] -= processSize[i]
+
+                break
+
+    print(" Process No. Process Size      Block no.")
+    for i in range(n):
+        print(" ", i + 1, "         ", processSize[i],
+              "         ", end=" ")
+        if allocation[i] != -1:
+            print(allocation[i] + 1)
+        else:
+            print("Not Allocated")
+
+        # Driver code
+
+
+if __name__ == '__main__':
+    blockSize = [100, 500, 200, 300, 600]
+    processSize = [212, 417, 112, 426]
+    m = len(blockSize)
+    n = len(processSize)
+
+    firstFit(blockSize, m, processSize, n)
+
+print("")  # also prints a blank line
+print("----------2----------------")
+
+# Function to allocate memory to blocks as per Next Fit algorithm
+def NextFit(blockSize, m, processSize, n):
+    # Stores block id of the block allocated to a process
+    allocation = [-1] * n
+    j = 0  # Start from first block
+    t = m - 1  # End pointer
+
+    # Pick each process and find suitable blocks according to its size
+    for i in range(n):
+        count = 0
+        while count < m:
+            if blockSize[j] >= processSize[i]:
+                # Allocate block j to process i
+                allocation[i] = j
+                blockSize[j] -= processSize[i]
+                j = (j + 1) % m  # Next fit starts from next block
+                break
+            j = (j + 1) % m
+            count += 1
+
+    # Print allocation details
+    print("Process No.\tProcess Size\tBlock no.")
+    for i in range(n):
+        print(f"{i+1}\t\t{processSize[i]}\t\t", end="")
+        if allocation[i] != -1:
+            print(allocation[i] + 1)
+        else:
+            print("Not Allocated")
+
+# Driver Code
+if __name__ == '__main__':
+    blockSize = [5, 10, 20]
+    processSize = [10, 20, 5]
+    m = len(blockSize)
+    n = len(processSize)
+    NextFit(blockSize, m, processSize, n)
+
+print("")  # also prints a blank line
+print("----------3----------------")
+
+# Function to allocate memory to blocks as per Worst Fit algorithm
+def worstFit(blockSize, m, processSize, n):
+    # Stores block id of the block allocated to a process
+    allocation = [-1] * n
+
+    # Pick each process and find suitable blocks according to its size
+    for i in range(n):
+        # Find the worst fit block for current process
+        wstIdx = -1
+        for j in range(m):
+            if blockSize[j] >= processSize[i]:
+                if wstIdx == -1:
+                    wstIdx = j
+                elif blockSize[j] > blockSize[wstIdx]:
+                    wstIdx = j
+
+        # If we could find a block for current process
+        if wstIdx != -1:
+            allocation[i] = wstIdx
+            blockSize[wstIdx] -= processSize[i]
+
+    # Print allocation details
+    print("Process No.\tProcess Size\tBlock no.")
+    for i in range(n):
+        print(f"{i + 1}\t\t{processSize[i]}\t\t", end="")
+        if allocation[i] != -1:
+            print(allocation[i] + 1)
+        else:
+            print("Not Allocated")
+
+# Driver code
+if __name__ == '__main__':
+    blockSize = [100, 500, 200, 300, 600]
+    processSize = [212, 417, 112, 426]
+    m = len(blockSize)
+    n = len(processSize)
+
+    worstFit(blockSize, m, processSize, n)
+
+print("")  # also prints a blank line
+
+print("----------4----------------")
+
+# Function to allocate memory to blocks as per Best Fit algorithm
+def bestfit(bsize, psize, m, n):
+    # To store block id of the block allocated to a process
+    alloc = [-1] * n
+
+    # Pick each process and find suitable blocks according to its size
+    for i in range(n):
+        # Find the best fit block for current process
+        bestIdx = -1
+        for j in range(m):
+            if bsize[j] >= psize[i]:
+                if bestIdx == -1:
+                    bestIdx = j
+                elif bsize[j] < bsize[bestIdx]:
+                    bestIdx = j
+
+        # If we could find a block for current process
+        if bestIdx != -1:
+            alloc[i] = bestIdx
+            bsize[bestIdx] -= psize[i]
+
+    # Print allocation details
+    print("\nProcess No.\tProcess Size\tBlock no.")
+    for i in range(n):
+        print(f" {i+1}\t\t{psize[i]}\t\t", end="")
+        if alloc[i] != -1:
+            print(alloc[i] + 1)
+        else:
+            print("Not Allocated")
+
+# Driver code
+if __name__ == "__main__":
+    bsize = [100, 500, 200, 300, 400]
+    psize = [112, 518, 110, 526]
+    m = len(bsize)
+    n = len(psize)
+
+    bestfit(bsize, psize, m, n)
