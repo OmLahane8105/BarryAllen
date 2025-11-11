@@ -80,3 +80,19 @@ int main() {
     cout << "\n Macro Expansion Completed! Check 'expanded.txt'.\n";
     return 0;
 }
+
+MACRO
+COPY &SRC,&DEST
+MOV AREG,&SRC
+MOV &DEST,AREG
+MEND
+
+MACRO
+CLEAR &REG
+MOV &REG,='0'
+MEND
+
+START
+COPY DATA1,DATA2
+CLEAR AREG
+END
