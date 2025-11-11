@@ -1,0 +1,30 @@
+from gpiozero import LED 
+from signal import pause 
+import RPi.GPIO as GPIO 
+import time 
+ 
+GPIO.setmode(GPIO.BCM) 
+ 
+LED_PIN = 21 
+IR_PIN = 26  
+ 
+indicator = LED(LED_PIN) 
+GPIO.setup(IR_PIN, GPIO.IN) 
+ 
+count = 1 
+ 
+while True: 
+  got_something = GPIO.input(IR_PIN) 
+  if got_something: 
+    indicator.on() 
+    print("{:>3} Got something".format(count)) 
+  else: 
+    indicator.off() 
+    print("{:>3} Nothing detected".format(count)) 
+  count += 1 
+  time.sleep(0.2)
+
+1. Open terminal (On Pi itself or login through SSH login) 
+2. Navigate to the directory where the above code is saved 
+3. Type $ python3 ir_obstacle.py and press <enter> 
+On terminal it will start printing the status based on the conditions.
