@@ -1,0 +1,35 @@
+# Prim's Algorithm (MST)
+
+graph = {
+    'A': {'B': 2, 'C': 3},
+    'B': {'A': 2, 'C': 1, 'D': 4},
+    'C': {'A': 3, 'B': 1, 'D': 5},
+    'D': {'B': 4, 'C': 5}
+}
+
+visited = []
+mst_cost = 0
+
+def prim(start):
+    global mst_cost
+    visited.append(start)
+
+    while len(visited) < len(graph):
+        min_edge = float('inf')
+        x = y = None
+
+        for i in visited:
+            for j in graph[i]:
+                if j not in visited and graph[i][j] < min_edge:
+                    min_edge = graph[i][j]
+                    x, y = i, j
+
+        print(x, "-", y, "=", min_edge)
+        mst_cost += min_edge
+        visited.append(y)
+
+    print("Total Cost:", mst_cost)
+
+
+# run
+prim('A')
