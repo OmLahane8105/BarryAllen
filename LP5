@@ -1,0 +1,20 @@
+print("Chatbot: Hello! How can I help you?")
+
+while True:
+    user = input("You: ").lower()
+
+    if user == "hi" or user == "hello":
+        print("Chatbot: Hello there!")
+
+    elif "price" in user:
+        print("Chatbot: Our product costs ₹500.")
+
+    elif "hours" in user:
+        print("Chatbot: We are open from 9 AM to 6 PM.")
+
+    elif "bye" in user:
+        print("Chatbot: Goodbye!")
+        break
+
+    else:
+        print("Chatbot: Sorry, I don't understand.")
