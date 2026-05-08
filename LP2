@@ -1,0 +1,44 @@
+graph = {
+    'A': ['B', 'C'],
+    'B': ['D'],
+    'C': ['G'],
+    'D': [],
+    'G': []
+}
+
+# heuristic values
+h = {
+    'A': 3,
+    'B': 2,
+    'C': 1,
+    'D': 1,
+    'G': 0
+}
+
+def a_star(start, goal):
+    open_list = [start]
+    g = {start: 0}
+    parent = {start: None}
+
+    while open_list:
+        # choose node with lowest f = g + h
+        n = min(open_list, key=lambda x: g[x] + h[x])
+
+        if n == goal:
+            path = []
+            while n:
+                path.append(n)
+                n = parent[n]
+            path.reverse()
+            print("Path:", path)
+            return
+
+        open_list.remove(n)
+
+        for i in graph[n]:
+            g[i] = g[n] + 1
+            parent[i] = n
+            open_list.append(i)
+
+# run
+a_star('A', 'G')
